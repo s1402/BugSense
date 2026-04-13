@@ -1,0 +1,82 @@
+# Claude Code local config
+.claude/
+
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/.env
+!**/.env.example
+!**/.env.sample
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vite/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime / cache
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+coverage/
+*.lcov
+.nyc_output/
+
+# Testing
+/coverage
+.jest/
+
+# IDE / editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Misc
+*.pem
+*.key
+*.crt
+.vercel
+.netlify
+.turbo
+
+# Uploads / generated assets
+uploads/
+tmp/
+temp/
