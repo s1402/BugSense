@@ -11,7 +11,7 @@ AI-powered bug tracker with RAG-based similarity search, LLM root-cause analysis
 - **Auth** — JWT-based login/register with bcrypt password hashing
 - **Hybrid search** — full-text + vector similarity across bug reports
 
-**Stack:** React 19, Vite, Redux Toolkit, Tailwind v4, Node.js, Express, MongoDB/Mongoose, Qdrant, Socket.io, Groq SDK, Google GenAI, JWT.
+**Stack:** React 19, Vite, React Context, Tailwind v4, Node.js, Express, MongoDB/Mongoose, Qdrant, Socket.io, Groq SDK, Google GenAI, JWT.
 
 ## How the RAG works
 
