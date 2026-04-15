@@ -32,11 +32,13 @@ export const AIInsightsTab = ({ bug, users = [], onOverride }) => {
   const [saved, setSaved]                 = useState(false);
 
   // Sync form values when bug prop updates (e.g. after save or live update)
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setOP(bug.priority);
     setOA(bug.assignee || '');
     setSaved(false);
   }, [bug.priority, bug.assignee]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const ai = bug.ai;
   const pct = ai ? Math.round(ai.confidenceScore * 100) : 0;

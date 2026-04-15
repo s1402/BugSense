@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { StatCard, Spinner } from '../components/ui/Primitives';
 import { Button } from '../components/ui/Button';
 import { BugTable } from '../components/bugs/BugTable';
 import { BugFilters } from '../components/bugs/BugFilters';
-import { bugsApi } from '../api/bugs.api.js';
 import { searchApi } from '../api/search.api.js';
 import { smartSearch } from '../utils/search.js';
 
@@ -15,7 +14,7 @@ const computeStats = (bugs) => ({
   critical:   bugs.filter(b => b.priority === 'critical').length,
 });
 
-export const DashboardPage = ({ bugs, onBugsChange, onNavigateBug, onNavigateCreate, onDeleteBug }) => {
+export const DashboardPage = ({ bugs, onNavigateBug, onNavigateCreate, onDeleteBug }) => {
   const [filters,       setFilters]       = useState({ status: 'all', priority: 'all', team: 'all', search: '' });
   const [searchResults, setSearchResults] = useState(null); // null = not searching
   const [searching,     setSearching]     = useState(false);
