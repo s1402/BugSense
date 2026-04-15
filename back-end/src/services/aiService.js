@@ -1,6 +1,10 @@
 import Groq from 'groq-sdk';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+let groq;
+const getGroq = () => {
+  if (!groq) groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  return groq;
+};
 const llmModel = "llama-3.1-8b-instant";
 
 const TEAM_OWNERSHIP = {
@@ -77,7 +81,7 @@ Tag rules: generate 2-4 lowercase hyphenated tags based on the technology and ty
 
   console.log(`prompt sent to Groq llm ${llmModel} :  ${prompt}`)
   try {
-    const completion = await groq.chat.completions.create({
+    const completion = await getGroq().chat.completions.create({
       model:       llmModel,
       messages:    [{ role: 'user', content: prompt }],
       temperature: 0.2,
