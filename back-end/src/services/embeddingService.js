@@ -1,6 +1,10 @@
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let ai;
+const getAI = () => {
+  if (!ai) ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  return ai;
+};
 
 const EMBEDDING_MODEL = 'gemini-embedding-001';
 export const VECTOR_SIZE = 3072;
@@ -15,7 +19,7 @@ export const generateBugEmbedding = async (bug) => {
     bug.logs ? `Logs: ${bug.logs}` : '',
   ].filter(Boolean).join('\n');
 
-  const result = await ai.models.embedContent({
+  const result = await getAI().models.embedContent({
     model: EMBEDDING_MODEL,
     contents: text,
     config: { taskType: 'RETRIEVAL_DOCUMENT' },
@@ -27,7 +31,7 @@ export const generateBugEmbedding = async (bug) => {
 };
 
 export const generateQueryEmbedding = async (query) => {
-  const result = await ai.models.embedContent({
+  const result = await getAI().models.embedContent({
     model: EMBEDDING_MODEL,
     contents: query,
     config: { taskType: 'RETRIEVAL_QUERY' },

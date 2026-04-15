@@ -33,7 +33,7 @@ const AppInner = () => {
     try {
       const data = await bugsApi.getAll();
       setBugs(data.bugs || []);
-    } catch (err) {
+    } catch {
       addToast({ message: 'Failed to load bugs', variant: 'error', actor: 'System', id: Date.now() });
     } finally {
       setLoading(false);
