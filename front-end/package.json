@@ -22,7 +22,10 @@
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.x",
     "@rollup/rollup-darwin-x64": "4.x",
-    "@rollup/rollup-darwin-arm64": "4.x"
+    "@rollup/rollup-darwin-arm64": "4.x",
+    "lightningcss-linux-x64-gnu": "1.x",
+    "lightningcss-darwin-x64": "1.x",
+    "lightningcss-darwin-arm64": "1.x"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.29.2",
