@@ -1,0 +1,68 @@
+services:
+
+  # ── MongoDB ─────────────────────────────────────────────────────────────────
+  # Official image — no Dockerfile needed. Data is persisted in a named volume
+  # so your bugs survive container restarts.
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"          # host:container — lets MongoDB Compass connect
+    volumes:
+      - mongo_data:/data/db    # named volume = data lives outside the container
+
+  # ── Qdrant (vector DB) ──────────────────────────────────────────────────────
+  # Used for semantic bug similarity search (3072-dim Gemini embeddings).
+  # Runs locally so you don't burn cloud Qdrant credits during development.
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: unless-stopped
+    ports:
+      - "6333:6333"            # REST API
+      - "6334:6334"            # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  # ── Back-end ─────────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./back-end      # Dockerfile is inside back-end/
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./back-end/.env        # your real API keys live here (gitignored)
+    environment:
+      # Override .env values that differ inside Docker.
+      # Inside the compose network, services reach each other by service name,
+      # not localhost. "mongodb" and "qdrant" resolve to the containers above.
+      MONGO_URI: mongodb://mongodb:27017/bugsense
+      QDRANT_URL: http://qdrant:6333
+      CLIENT_URL: http://localhost:5173
+      NODE_ENV: development
+    depends_on:
+      - mongodb
+      - qdrant
+
+  # ── Front-end ────────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./front-end
+      args:
+        # Baked into the Vite JS bundle at build time.
+        # Must be the URL the *browser* (running on your host) uses — not the
+        # internal Docker network name.
+        VITE_API_URL: http://localhost:5000
+        VITE_SOCKET_URL: http://localhost:5000
+    restart: unless-stopped
+    ports:
+      - "5173:80"              # serve on 5173 to match dev habit; nginx listens on 80
+    depends_on:
+      - backend
+
+# ── Named volumes ────────────────────────────────────────────────────────────
+# Docker manages these on your host. Data persists even after "docker-compose down".
+# Use "docker-compose down -v" to wipe volumes (full reset).
+volumes:
+  mongo_data:
+  qdrant_data:

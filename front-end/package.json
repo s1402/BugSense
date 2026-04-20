@@ -21,12 +21,15 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.x",
+    "@rollup/rollup-linux-x64-musl": "4.x",
     "@rollup/rollup-darwin-x64": "4.x",
     "@rollup/rollup-darwin-arm64": "4.x",
     "lightningcss-linux-x64-gnu": "1.x",
+    "lightningcss-linux-x64-musl": "1.x",
     "lightningcss-darwin-x64": "1.x",
     "lightningcss-darwin-arm64": "1.x",
     "@tailwindcss/oxide-linux-x64-gnu": "4.x",
+    "@tailwindcss/oxide-linux-x64-musl": "4.x",
     "@tailwindcss/oxide-darwin-x64": "4.x",
     "@tailwindcss/oxide-darwin-arm64": "4.x"
   },
