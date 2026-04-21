@@ -25,6 +25,8 @@ Gemini's embedding API produces **different vectors for documents vs. queries** 
 
 ## Setup
 
+> **Prefer Docker?** The entire stack (MongoDB + Qdrant + backend + frontend) is containerised — see [DOCKER.md](DOCKER.md) to run it with one command, no Node or databases installed.
+
 ### Prerequisites
 - Node.js 20+
 - MongoDB (local or Atlas)
