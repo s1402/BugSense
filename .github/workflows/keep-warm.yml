@@ -1,0 +1,15 @@
+name: Keep Render warm
+
+on:
+  schedule:
+    # Render free tier sleeps after 15 min idle. Ping every 14 min to keep it warm.
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping health endpoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl /health
+        run: curl -fsSL https://bugsense-api.onrender.com/health
