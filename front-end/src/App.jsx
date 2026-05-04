@@ -4,6 +4,7 @@ import { bugsApi } from './api/bugs.api.js';
 import { authApi } from './api/auth.api.js';
 import { useWebSocket } from './hooks/useWebSocket.js';
 import { Sidebar } from './components/layout/Sidebar.jsx';
+import { Footer } from './components/layout/Footer.jsx';
 import { ToastContainer } from './components/notifications/ToastContainer.jsx';
 import { LoginPage } from './pages/LoginPage.jsx';
 import { DashboardPage } from './pages/DashboardPage.jsx';
@@ -64,16 +65,26 @@ const AppInner = () => {
   }, isAuthenticated);
 
   if (!isAuthenticated) {
-    return <LoginPage onLogin={() => {}} />;
+    return (
+      <div className="flex flex-col h-screen bg-slate-50">
+        <div className="flex-1 overflow-auto">
+          <LoginPage onLogin={() => {}} />
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   if (loading && bugs.length === 0) {
     return (
-      <div className="flex items-center justify-center h-screen bg-slate-50">
-        <div className="text-center space-y-3">
-          <Spinner size="lg" />
-          <p className="text-sm text-slate-500">Loading BugSense...</p>
+      <div className="flex flex-col h-screen bg-slate-50">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center space-y-3">
+            <Spinner size="lg" />
+            <p className="text-sm text-slate-500">Loading BugSense...</p>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -102,35 +113,38 @@ const AppInner = () => {
   const currentBug = page.name === 'bug' ? bugs.find(b => b._id === page.id) : null;
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
-      <Sidebar page={page} setPage={setPage} user={user} onLogout={logout} />
-      <main className="flex-1 overflow-hidden flex flex-col">
-        {page.name === 'dashboard' && (
-          <DashboardPage
-            bugs={bugs}
-            onBugsChange={setBugs}
-            onNavigateBug={(id) => setPage({ name: 'bug', id })}
-            onNavigateCreate={() => setPage({ name: 'create' })}
-            onDeleteBug={handleDeleteBug}
-          />
-        )}
-        {page.name === 'create' && (
-          <CreateBugPage
-            bugs={bugs}
-            onBack={() => setPage({ name: 'dashboard' })}
-            onCreate={handleCreate}
-            onViewBug={(id) => setPage({ name: 'bug', id })}
-          />
-        )}
-        {page.name === 'bug' && (
-          <BugDetailPage
-            bug={currentBug}
-            users={users}
-            onBack={() => setPage({ name: 'dashboard' })}
-            onBugUpdated={handleBugUpdated}
-          />
-        )}
-      </main>
+    <div className="flex flex-col h-screen bg-slate-50 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar page={page} setPage={setPage} user={user} onLogout={logout} />
+        <main className="flex-1 overflow-hidden flex flex-col">
+          {page.name === 'dashboard' && (
+            <DashboardPage
+              bugs={bugs}
+              onBugsChange={setBugs}
+              onNavigateBug={(id) => setPage({ name: 'bug', id })}
+              onNavigateCreate={() => setPage({ name: 'create' })}
+              onDeleteBug={handleDeleteBug}
+            />
+          )}
+          {page.name === 'create' && (
+            <CreateBugPage
+              bugs={bugs}
+              onBack={() => setPage({ name: 'dashboard' })}
+              onCreate={handleCreate}
+              onViewBug={(id) => setPage({ name: 'bug', id })}
+            />
+          )}
+          {page.name === 'bug' && (
+            <BugDetailPage
+              bug={currentBug}
+              users={users}
+              onBack={() => setPage({ name: 'dashboard' })}
+              onBugUpdated={handleBugUpdated}
+            />
+          )}
+        </main>
+      </div>
+      <Footer />
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
